@@ -14,36 +14,31 @@ type Props = {
   }
 }
 
-const IndexPage = ({ azuki }: Props) => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <div className="flex flex-col items-center justify-center py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <h1 className="text-6xl font-bold">
-        Ah Suh
-        <a className="text-blue-600" href="https://rafflebuzz.com.au">
-          Dud
-        </a>
-      </h1>
-      <code>
-        { JSON.stringify(azuki) }
-      </code>
-      <p>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
-      </p>
-    </div>
-  </Layout>
-)
+const IndexPage = ({ azuki }: Props) => {
+  const choiceOne = azuki[0]
+  const choiceTwo = azuki[1]
+  return (
+    <Layout title={"The Community's no.1 NFT Rating System | NFT Elo | Community Drive"}>
+      <div className="grid grid-cols-3 gap-x-8">
+        <div className="cursor-pointer hover:scale-105">
+          <h3 className="text-2xl font-bold mb-2">{choiceOne.name}</h3>
+          <img className="rounded-lg shadow-2xl" src={choiceOne.image} />
+          <button className="box-border outline outline-2 outline-offset-1 outline-cyan-500 w-full p-2 bg-slate-100 text-slate-800 mt-2 rounded-md shadow-xl font-bold">Vote</button>
+        </div>
+        <div className="cursor-pointer hover:scale-105">
+          <h3 className="text-2xl font-bold mb-2">{choiceTwo.name}</h3>
+          <img className="rounded-lg shadow-2xl" src={choiceTwo.image} />
+          <button className="box-border outline outline-2 outline-offset-1 outline-cyan-500 w-full p-2 bg-slate-100 text-slate-800 mt-2 rounded-md shadow-xl font-bold">Vote</button>
+        </div>
+      </div>
+    </Layout>
+  )
+}
 
-/* Retrieves pet(s) data from mongodb database */
 export async function getServerSideProps() {
   await dbConnect()
 
-  const result = await NonFungibleToken.find({ type: "azuki" }).limit(10)
+  const result = await NonFungibleToken.find({ type: "azuki" }).skip(100).limit(2)
   const azukis = result.map((azuki) => ({
     ...azuki.toObject(),
     _id: azuki._id.toString()
