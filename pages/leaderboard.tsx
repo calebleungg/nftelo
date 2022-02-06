@@ -35,7 +35,7 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
     <Layout title={"The Community's no.1 NFT Rating System | NFT Elo | Community Drive"}>
       <div className="grid grid-cols-3 gap-x-14 gap-y-6">
         { listSection.map((nft) => (
-          <div className="flex flex-row gap-x-4">
+          <div key={nft._id} className="flex flex-row gap-x-4">
             <img className="w-20 rounded-lg shadow-xl" src={nft.image}/>
             <div>
               <p className="text-2x font-black">{nft.name}</p>

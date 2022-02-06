@@ -20,8 +20,8 @@ const Layout = ({ children, title }: Props) => (
       <div className="grid grid-cols-5 gap-x-6">
         <div className="col-span-1">
           <div className="bg-slate-700 shadow-lg py-6 pl-4 pr-10 rounded-lg flex flex-col gap-4 h-fit w-fit">
-            <Link href="/"><h2 className="cursor-pointer text-xl font-bold">Cast Your Vote</h2></Link>
-            <Link href="/leaderboard"><h2 className="cursor-pointer text-xl font-bold">Leaderboard</h2></Link>
+            <Link href="/"><h2 className="hover:text-cyan-400 cursor-pointer text-xl font-bold">Cast Your Vote</h2></Link>
+            <Link href="/leaderboard"><h2 className="hover:text-cyan-400 cursor-pointer text-xl font-bold">Leaderboard</h2></Link>
           </div>
         </div>
         <div className="flex flex-wrap col-span-4">
