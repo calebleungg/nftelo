@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 /* NonFungibleTokenSchema will correspond to a collection in your MongoDB database. */
-const NonFungibleTokenSchema = new mongoose.Schema({
+export const NonFungibleTokenSchema = new mongoose.Schema({
   name: {
     /* The name of this  NonFungibleToken*/
 
@@ -25,6 +25,11 @@ const NonFungibleTokenSchema = new mongoose.Schema({
 
     type: String,
     required: [true, "Please provide a type this NonFungibleToken belongs to."],
+  },
+  votes: {
+    /* The owner of this NonFungibleToken */
+    type: Number,
+    default: 0
   }
 })
 

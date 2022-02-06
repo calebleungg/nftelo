@@ -1,34 +1,39 @@
-import Head from 'next/head'
-import Link from 'next/link'
 import { useState } from 'react'
 import Layout from '../components/Layout'
 import dbConnect from "../lib/dbConnect"
 import NonFungibleToken from '../models/NonFungibleToken'
 import { GiAlliedStar } from "react-icons/gi"
 import { IoMdPodium } from "react-icons/io"
+import { NonFungibleTokenType } from '../interfaces/types'
 
-type NFT = {
-  _id: string,
-  name: string,
-  image: string,
-  type: string,
-  elo: number,
-  rank: number,
+interface NonFungibleTokenExtended extends NonFungibleTokenType {
+  rank: number
 }
 
 type Props = {
-  leaderboard: NFT[]
+  leaderboard: NonFungibleTokenExtended[]
 }
 
 const PAGE_SIZE = 18
+const MAX_COUNT = 10000
 
 const LeaderboardPage = ({ leaderboard }: Props) => {
   const [page, setPage] = useState({ from: 0, to: PAGE_SIZE })
   const [listSection, setListSection] = useState(leaderboard.slice(page.from, page.to))
 
-  const goToNextPage = () => {
-    setPage({ from: page.from + PAGE_SIZE, to: page.to + PAGE_SIZE})
-    setListSection(leaderboard.slice(page.from + PAGE_SIZE, page.to + PAGE_SIZE))
+  const handleNext = () => {
+    if (page.to < MAX_COUNT) {
+      setPage({ from: page.from + PAGE_SIZE, to: page.to + PAGE_SIZE})
+      setListSection(leaderboard.slice(page.from + PAGE_SIZE, page.to + PAGE_SIZE))
+    }
+  }
+
+  const handlePrevious = () => {
+    if (page.from === 0) {
+      return;
+    }
+    setPage({ from: page.from - PAGE_SIZE, to: page.to - PAGE_SIZE})
+    setListSection(leaderboard.slice(page.from - PAGE_SIZE, page.to - PAGE_SIZE))
   }
 
   return (
@@ -47,6 +52,19 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
           </div>
         ))}
       </div>
+      <div className="py-2" />
+      <div className="flex flex-row gap-2">
+        {page.from > 0 && (
+          <button
+            onClick={handlePrevious}
+            className="box-border outline outline-2 outline-offset-1 outline-slate-700 py-2 px-4 bg-slate-100 text-slate-800 rounded-md shadow-xl font-bold text-sm"
+          >Previous</button>
+        )}
+        <button
+          onClick={handleNext}
+          className="box-border outline outline-2 outline-offset-1 outline-slate-700 py-2 px-4 bg-slate-100 text-slate-800 rounded-md shadow-xl font-bold text-sm"
+        >Next</button>
+      </div>
     </Layout>
   )
 }
@@ -54,7 +72,7 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
 export async function getServerSideProps() {
   await dbConnect()
 
-  const result = await NonFungibleToken.find({ type: "azuki" })
+  const result = await NonFungibleToken.find({ type: "azuki" }).sort({ elo: -1 })
   const azukis = result.map((azuki, index) => ({
     ...azuki.toObject(),
     _id: azuki._id.toString(),
