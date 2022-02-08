@@ -18,3 +18,8 @@ export const getNextPair = async (options: { exclude: string[] }) => {
     throw error
   }
 }
+
+// elo algorithm is from this -> https://metinmediamath.wordpress.com/2013/11/27/how-to-calculate-the-elo-rating-including-example/
+export const calcEloForVote = async ({ winnerId, loserId }) => {
+  await axios.post(DEFAULT_PATH, { winnerId, loserId })
+}

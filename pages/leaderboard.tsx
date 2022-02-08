@@ -5,6 +5,7 @@ import NonFungibleToken from '../models/NonFungibleToken'
 import { GiAlliedStar } from "react-icons/gi"
 import { IoMdPodium } from "react-icons/io"
 import { NonFungibleTokenType } from '../interfaces/types'
+import Image from "next/image"
 
 interface NonFungibleTokenExtended extends NonFungibleTokenType {
   rank: number
@@ -38,7 +39,7 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
 
   return (
     <Layout title={"The Community's no.1 NFT Rating System | NFT Elo | Community Drive"}>
-      <div className="grid grid-cols-3 gap-x-14 gap-y-6">
+      <div className="grid md:grid-cols-3 gap-x-14 gap-y-6">
         { listSection.map((nft) => (
           <div key={nft._id} className="flex flex-row gap-x-4">
             <img className="w-20 rounded-lg shadow-xl" src={nft.image}/>

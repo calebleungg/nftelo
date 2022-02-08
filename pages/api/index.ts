@@ -8,10 +8,14 @@ const ORDER_BY = {
 
 const DEFAULT_COLLECTION = "azuki"
 
+const ELO_CONSTANT = 400
+const ELO_K_FACTOR = 32
+
 export default async function handler(req, res) {
   const { 
     query: { skip, take, sort, order, exclude, type },
-    method
+    method,
+    body
   } = req
 
   await dbConnect()
@@ -40,6 +44,33 @@ export default async function handler(req, res) {
         const nfts = await query
         res.status(200).json({ success: true, data: nfts })
       } catch (error) {
+        res.status(400).json({ success: false })
+      }
+      break
+    case 'POST':
+      try {
+        const { winnerId, loserId } = body
+        const [winnerToken, loserToken] = await Promise.all([
+          NonFungibleToken.findById(winnerId),
+          NonFungibleToken.findById(loserId)
+        ])
+
+        const transformedRatingWinner = Math.pow(10, winnerToken.elo / ELO_CONSTANT)
+        const transformedRatingLoser = Math.pow(10, loserToken.elo / ELO_CONSTANT)
+      
+        const expectedScoreWinner = transformedRatingWinner / (transformedRatingWinner + transformedRatingLoser)
+        const expectedScoreLoser = transformedRatingLoser / (transformedRatingWinner + transformedRatingLoser)
+      
+        const newEloRatingWinner = winnerToken.elo + ELO_K_FACTOR * (1 - expectedScoreWinner)
+        const newEloRatingLoser = loserToken.elo + ELO_K_FACTOR * (0 - expectedScoreLoser)
+
+        await Promise.all([
+          NonFungibleToken.updateOne({ _id: winnerToken.id }, { elo: newEloRatingWinner, votes: winnerToken.votes + 1 }),
+          NonFungibleToken.updateOne({ _id: loserToken.id }, { elo: newEloRatingLoser, votes: loserToken.votes + 1 })
+        ])
+
+        res.status(200).json({ success: true, data: 'dimsum' })
+      } catch(error) {
         res.status(400).json({ success: false })
       }
       break

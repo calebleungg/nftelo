@@ -1,11 +1,9 @@
-import { useState } from 'react'
 import Layout from '../components/Layout'
 import Vote from '../components/Vote'
 import { parseCollection } from '../helpers'
 import { NonFungibleTokenType } from '../interfaces/types'
 import dbConnect from "../lib/dbConnect"
 import NonFungibleToken from '../models/NonFungibleToken'
-import { getNextPair } from './api/queries'
 
 type Props = {
   pair: NonFungibleTokenType[]
