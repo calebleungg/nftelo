@@ -15,7 +15,7 @@ type Props = {
   leaderboard: NonFungibleTokenExtended[]
 }
 
-const PAGE_SIZE = 18
+const PAGE_SIZE = 24
 const MAX_COUNT = 10000
 
 const LeaderboardPage = ({ leaderboard }: Props) => {
@@ -38,8 +38,8 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
   }
 
   return (
-    <Layout title={"The Community's no.1 NFT Rating System | NFT Elo | Community Drive"}>
-      <div className="grid md:grid-cols-3 gap-x-14 gap-y-6">
+    <Layout title={"The Community's no.1 NFT Rating System | NFT Elo | Community Driven | Leaderboard Rankings"}>
+      <div className="grid md:grid-cols-3 2xl:grid-cols-4 gap-x-14 gap-y-6">
         { listSection.map((nft) => (
           <div key={nft._id} className="flex flex-row gap-x-4">
             <img className="w-20 rounded-lg shadow-xl" src={nft.image}/>
@@ -52,19 +52,18 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
             </div>
           </div>
         ))}
-      </div>
-      <div className="py-2" />
-      <div className="flex flex-row gap-2">
-        {page.from > 0 && (
+        <div className="flex flex-row gap-2 md:col-span-3 2xl:col-span-4 w-full justify-end">
+          {page.from > 0 && (
+            <button
+              onClick={handlePrevious}
+              className="box-border outline outline-2 outline-offset-1 outline-slate-700 py-2 px-4 bg-slate-100 text-slate-800 rounded-md shadow-xl font-bold text-sm"
+            >Previous</button>
+          )}
           <button
-            onClick={handlePrevious}
+            onClick={handleNext}
             className="box-border outline outline-2 outline-offset-1 outline-slate-700 py-2 px-4 bg-slate-100 text-slate-800 rounded-md shadow-xl font-bold text-sm"
-          >Previous</button>
-        )}
-        <button
-          onClick={handleNext}
-          className="box-border outline outline-2 outline-offset-1 outline-slate-700 py-2 px-4 bg-slate-100 text-slate-800 rounded-md shadow-xl font-bold text-sm"
-        >Next</button>
+          >Next</button>
+        </div>
       </div>
     </Layout>
   )

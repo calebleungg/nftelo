@@ -11,7 +11,7 @@ type Props = {
 
 const IndexPage = ({ pair }: Props) => {
   return (
-    <Layout title={"The Community's no.1 NFT Rating System | NFT Elo | Community Drive"}>
+    <Layout title={"The Community's no.1 NFT Rating System | NFT Elo | Community Driven | Vote Now!"}>
       <Vote pair={pair} />
     </Layout>
   )
