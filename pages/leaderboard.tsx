@@ -72,7 +72,8 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
 export async function getServerSideProps() {
   await dbConnect()
 
-  const result = await NonFungibleToken.find({ type: "azuki" }).sort({ elo: -1 })
+  // make this dynamic
+  const result = await NonFungibleToken.find({ type: "azuki" }).sort({ elo: -1 }).limit(PAGE_SIZE)
   const azukis = result.map((azuki, index) => ({
     ...azuki.toObject(),
     _id: azuki._id.toString(),

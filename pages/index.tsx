@@ -1,33 +1,23 @@
 import Layout from '../components/Layout'
 import Vote from '../components/Vote'
-import { parseCollection } from '../helpers'
 import { NonFungibleTokenType } from '../interfaces/types'
-import dbConnect from "../lib/dbConnect"
-import NonFungibleToken from '../models/NonFungibleToken'
+import { getNonFungibleTokenPairs } from '../services/pairs'
 
 type Props = {
-  pair: NonFungibleTokenType[]
+  pairs: NonFungibleTokenType[]
 }
 
-const IndexPage = ({ pair }: Props) => {
+const IndexPage = ({ pairs }: Props) => {
   return (
     <Layout title={"The Community's no.1 NFT Rating System | NFT Elo | Community Driven | Vote Now!"}>
-      <Vote pair={pair} />
+      <Vote pairs={pairs} />
     </Layout>
   )
 }
 
-const findPair = async () => {
-  const result = await NonFungibleToken.find({ type: "azuki" }).sort({ votes: 1 }).limit(2)
-
-  return parseCollection(result)
-}
-
 export async function getServerSideProps() {
-  await dbConnect()
-
-  const pair = await findPair()
-  return { props: { pair }}
+  const pairs = await getNonFungibleTokenPairs({ take: 6, excludes: null })
+  return { props: { pairs }}
 }
 
 export default IndexPage
