@@ -5,7 +5,7 @@ module.exports = {
         source: "/",
         headers: [
           {
-            key: 'cache-control',
+            key: 'Cache-Control',
             value: 'no-cache',
           },
         ],
@@ -14,7 +14,7 @@ module.exports = {
         source: "/leaderboard",
         headers: [
           {
-            key: 'cache-control',
+            key: 'Cache-Control',
             value: 'no-cache',
           },
         ],
