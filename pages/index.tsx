@@ -2,6 +2,7 @@ import Layout from '../components/Layout'
 import Vote from '../components/Vote'
 import { NonFungibleTokenType } from '../interfaces/types'
 import dbConnect from '../lib/dbConnect'
+import logger from '../lib/logger'
 import { getNonFungibleTokenPairs } from '../services/pairs'
 
 type Props = {
@@ -17,10 +18,16 @@ const IndexPage = ({ pairs }: Props) => {
 }
 
 export async function getServerSideProps() {
-  await dbConnect()
+  try {
+    logger.info({ path: "/" })
 
-  const pairs = await getNonFungibleTokenPairs({ take: 6, excludes: null })
-  return { props: { pairs }}
+    await dbConnect()
+    const pairs = await getNonFungibleTokenPairs({ take: 6, excludes: null })
+    return { props: { pairs }}
+  } catch (error) {
+    logger.error({ path: "/", error })
+    throw error
+  }
 }
 
 export default IndexPage

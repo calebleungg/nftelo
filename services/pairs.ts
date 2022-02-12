@@ -1,12 +1,13 @@
-import { ORDER_BY } from "../helpers/constants"
 import NonFungibleToken from "../models/NonFungibleToken"
+import { getVoteFloor } from "./vote"
 
 export const getNonFungibleTokenPairs = async (options: { take: number, excludes: string }) => {
   const { take, excludes }= options
 
-  const lowestVotes = await NonFungibleToken.findOne({ type: "azuki" }).sort({ votes: ORDER_BY["asc"] })
+  const voteFloor = await getVoteFloor()
+
   const nextPairs = await NonFungibleToken.aggregate([
-    { $match: { votes: lowestVotes.votes, _id: { $nin: excludes ? excludes.split(",") : [] } } },
+    { $match: { votes: voteFloor, _id: { $nin: excludes ? excludes.split(",") : [] } } },
     { $sample: { size: Number(take) } },
   ])
 

@@ -1,4 +1,5 @@
 import dbConnect from '../../lib/dbConnect'
+import logger from '../../lib/logger'
 import { getNonFungibleTokenPairs } from '../../services/pairs'
 
 export default async function handler(req, res) {
@@ -6,7 +7,9 @@ export default async function handler(req, res) {
     query: { take, excludes },
     method
   } = req
+
   await dbConnect()
+  logger.info({ path: "/api/pairs", method })
 
   switch (method) {
     case 'GET':
@@ -15,6 +18,7 @@ export default async function handler(req, res) {
 
         res.status(200).json({ success: true, data })
       } catch(error) {
+        logger.error({ path: "/api/pairs", method, error })
         res.status(400).json({ success: false })
       }
       break

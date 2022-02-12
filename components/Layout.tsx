@@ -25,8 +25,8 @@ const Layout = ({ children, title }: Props) => (
             <h2 className="flex flex-row items-center gap-2 hover:text-cyan-400 cursor-pointer text-lg font-bold"><HiOutlineCollection />Collection: Azuki</h2>
           </div>
           <div className="flex md:flex-col gap-4 h-fit w-fit">
-            <Link href="/"><h2 className="flex flex-row items-center gap-2 hover:text-cyan-400 py-2 md:py-3 pl-4 pr-6 text-center rounded-lg bg-slate-700 cursor-pointer text-lg font-bold w-fit"><MdOutlineHowToVote/> Vote</h2></Link>
-            <Link href="/leaderboard"><h2 className="flex flex-row items-center gap-2 hover:text-cyan-400 py-2 md:py-3 pl-4 pr-6 text-center rounded-lg bg-slate-700 cursor-pointer text-lg font-bold w-fit"><MdLeaderboard/>Leaderboard</h2></Link>
+            <Link href="/" passHref><h2 className="flex flex-row items-center gap-2 hover:text-cyan-400 py-2 md:py-3 pl-4 pr-6 text-center rounded-lg bg-slate-700 cursor-pointer text-lg font-bold w-fit"><MdOutlineHowToVote/> Vote</h2></Link>
+            <Link href="/leaderboard" passHref><h2 className="flex flex-row items-center gap-2 hover:text-cyan-400 py-2 md:py-3 pl-4 pr-6 text-center rounded-lg bg-slate-700 cursor-pointer text-lg font-bold w-fit"><MdLeaderboard/>Leaderboard</h2></Link>
           </div>
         </div>
         <div className="flex flex-col col-span-9 2xl:col-span-4 items-start py-6 md:py-0">

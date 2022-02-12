@@ -4,6 +4,7 @@ import { NonFungibleTokenType } from '../interfaces/types'
 import Leaderboard from '../components/Leaderboard'
 import { LEADERBOARD_PAGE_SIZE } from '../helpers/constants'
 import { getPaginatedTokens } from '../services/tokens'
+import logger from '../lib/logger'
 
 interface NonFungibleTokenExtended extends NonFungibleTokenType {
   rank: number
@@ -22,10 +23,16 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
 }
 
 export async function getServerSideProps() {
-  await dbConnect()
+  try {
+    logger.info({ path: "/leaderboard" })
 
-  const list = await getPaginatedTokens("azuki", 0, LEADERBOARD_PAGE_SIZE)
-  return { props: { leaderboard: list }}
+    await dbConnect()
+    const list = await getPaginatedTokens("azuki", 0, LEADERBOARD_PAGE_SIZE)
+    return { props: { leaderboard: list }}
+  } catch (error) {
+    logger.error({ path: "/leaderboard", error })
+    throw error
+  }
 }
 
 export default LeaderboardPage

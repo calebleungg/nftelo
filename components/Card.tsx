@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { NonFungibleTokenType } from '../interfaces/types'
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
 }
 
 const Card = ({ token, loading, handleClick }: Props) => (
-  <div className={`cursor-pointer md:w-128 md:h-128 hover:scale-105 duration-300 ${loading ? 'animate-fade-out' : 'animate-fade-in'}`} onClick={handleClick}>
+  <div className={`cursor-pointer md:w-128 md:h-128 md:hover:scale-105 duration-300 ${loading ? 'animate-fade-out' : 'animate-fade-in'}`} onClick={handleClick}>
     <h3 className="text-2xl font-bold mb-2">
       { token.name }
     </h3>

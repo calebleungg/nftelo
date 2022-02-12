@@ -1,23 +1,30 @@
+import { ORDER_BY } from "../helpers/constants"
+import { calculateElo } from "../helpers/elo"
 import NonFungibleToken from "../models/NonFungibleToken"
 
-const ELO_CONSTANT = 400
-const ELO_K_FACTOR = 32
+export const getVoteFloor = async () => {
+  const lowestVoteToken = await NonFungibleToken
+    .findOne({ type: "azuki" })
+    .sort({ votes: ORDER_BY["asc"] })
+
+  return lowestVoteToken.votes
+}
 
 export const processEloForVote = async (winnerId: string, loserId: string) => {
-  // elo algorithm is from this -> https://metinmediamath.wordpress.com/2013/11/27/how-to-calculate-the-elo-rating-including-example/
+  const voteFloor = await getVoteFloor()
+  
+  // we check that the token is at the vote floor
+  // if not - ineligable for another vote until they are
   const [winnerToken, loserToken] = await Promise.all([
-    NonFungibleToken.findById(winnerId),
-    NonFungibleToken.findById(loserId)
+    NonFungibleToken.findOne({ _id: winnerId, votes: voteFloor }),
+    NonFungibleToken.findOne({ _id: loserId, votes: voteFloor })
   ])
 
-  const transformedRatingWinner = Math.pow(10, winnerToken.elo / ELO_CONSTANT)
-  const transformedRatingLoser = Math.pow(10, loserToken.elo / ELO_CONSTANT)
+  if (!winnerToken || !loserToken) {
+    throw "Couldn't find eligible token for voting"
+  }
 
-  const expectedScoreWinner = transformedRatingWinner / (transformedRatingWinner + transformedRatingLoser)
-  const expectedScoreLoser = transformedRatingLoser / (transformedRatingWinner + transformedRatingLoser)
-
-  const newEloRatingWinner = winnerToken.elo + ELO_K_FACTOR * (1 - expectedScoreWinner)
-  const newEloRatingLoser = loserToken.elo + ELO_K_FACTOR * (0 - expectedScoreLoser)
+  const { newEloRatingWinner, newEloRatingLoser } = calculateElo(winnerToken.elo, loserToken.elo)
 
   await Promise.all([
     NonFungibleToken.updateOne({ _id: winnerToken.id }, { elo: newEloRatingWinner, votes: winnerToken.votes + 1 }),

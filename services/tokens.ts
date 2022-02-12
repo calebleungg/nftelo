@@ -10,7 +10,7 @@ export const getPaginatedTokens = async (collection: Collection, skip: number, t
     .skip(skip)
     .limit(take)
 
-  const tokens = result.map((azuki, index) => ({
+  const tokens = result.map((azuki) => ({
     ...azuki.toObject(),
     _id: azuki._id.toString()
   }))

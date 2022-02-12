@@ -1,4 +1,5 @@
 import dbConnect from '../../lib/dbConnect'
+import logger from '../../lib/logger'
 import { getPaginatedTokens } from '../../services/tokens'
 
 export default async function handler(req, res) {
@@ -8,6 +9,7 @@ export default async function handler(req, res) {
   } = req
 
   await dbConnect()
+  logger.info({ path: "/api", method })
 
   switch (method) {
     case 'GET':
@@ -16,6 +18,7 @@ export default async function handler(req, res) {
 
         res.status(200).json({ success: true, data: tokens })
       } catch (error) {
+        logger.error({ path: "/api", method, error })
         res.status(400).json({ success: false })
       }
       break
