@@ -15,7 +15,7 @@ const IndexPage = ({ pairs }: Props) => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const pairs = await getNonFungibleTokenPairs({ take: 6, excludes: null })
   return { props: { pairs }}
 }

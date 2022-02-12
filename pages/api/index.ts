@@ -1,14 +1,10 @@
 import dbConnect from '../../lib/dbConnect'
-import NonFungibleToken from '../../models/NonFungibleToken'
-import * as Constants from "../../helpers/constants"
-
-const DEFAULT_COLLECTION = "azuki"
+import { getPaginatedTokens } from '../../services/tokens'
 
 export default async function handler(req, res) {
   const { 
-    query: { skip, take, sort, order, exclude, type },
+    query: { skip, take },
     method,
-    body
   } = req
 
   await dbConnect()
@@ -16,26 +12,9 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        let query = NonFungibleToken.find({})
+        const tokens = await getPaginatedTokens("azuki", skip, take)
 
-        if (skip && take) {
-          query = query.skip(skip).limit(take)
-        }
-
-        if (sort && order) {
-          query = query.sort({ [sort]: Constants.ORDER_BY[order] })
-        }
-
-        if (exclude) {
-          query = query.find({ _id: { $nin: exclude.split(",") } })
-        }
-
-        if (type) {
-          query = query.find({ type: type || DEFAULT_COLLECTION })
-        }
-
-        const nfts = await query
-        res.status(200).json({ success: true, data: nfts })
+        res.status(200).json({ success: true, data: tokens })
       } catch (error) {
         res.status(400).json({ success: false })
       }

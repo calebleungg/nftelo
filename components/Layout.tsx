@@ -9,7 +9,7 @@ type Props = {
 }
 
 const Layout = ({ children, title }: Props) => (
-  <div className="flex min-h-screen flex-col px-6 py-10 md:py-32 md:px-40 bg-slate-900 text-slate-100">
+  <div className="flex min-h-overflow flex-col px-6 py-10 md:py-32 md:px-40 bg-slate-900 text-slate-100">
     <Head>
       <title>{title}</title>
       <link rel="icon" href="/favicon.ico" />
