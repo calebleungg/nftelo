@@ -5,7 +5,7 @@ module.exports = {
   ],
   theme: {
     minHeight: {
-      'overflow': '101vh',
+      'overflow': '110vh',
     },
     extend: {
       spacing: {
