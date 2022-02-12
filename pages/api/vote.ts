@@ -1,5 +1,4 @@
 import dbConnect from '../../lib/dbConnect'
-import NonFungibleToken from '../../models/NonFungibleToken'
 import { processEloForVote } from '../../services/vote'
 
 export default async function handler(req, res) {

@@ -1,6 +1,7 @@
 import Layout from '../components/Layout'
 import Vote from '../components/Vote'
 import { NonFungibleTokenType } from '../interfaces/types'
+import dbConnect from '../lib/dbConnect'
 import { getNonFungibleTokenPairs } from '../services/pairs'
 
 type Props = {
@@ -16,6 +17,8 @@ const IndexPage = ({ pairs }: Props) => {
 }
 
 export async function getStaticProps() {
+  await dbConnect()
+
   const pairs = await getNonFungibleTokenPairs({ take: 6, excludes: null })
   return { props: { pairs }}
 }

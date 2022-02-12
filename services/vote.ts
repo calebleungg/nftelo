@@ -19,13 +19,8 @@ export const processEloForVote = async (winnerId: string, loserId: string) => {
   const newEloRatingWinner = winnerToken.elo + ELO_K_FACTOR * (1 - expectedScoreWinner)
   const newEloRatingLoser = loserToken.elo + ELO_K_FACTOR * (0 - expectedScoreLoser)
 
-  const data = await Promise.all([
+  await Promise.all([
     NonFungibleToken.updateOne({ _id: winnerToken.id }, { elo: newEloRatingWinner, votes: winnerToken.votes + 1 }),
     NonFungibleToken.updateOne({ _id: loserToken.id }, { elo: newEloRatingLoser, votes: loserToken.votes + 1 })
-  ])
-
-  const dimsum = await Promise.all([
-    NonFungibleToken.findById(winnerId),
-    NonFungibleToken.findById(loserId)
   ])
 }

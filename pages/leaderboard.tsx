@@ -1,7 +1,5 @@
-import { useRef, useState, useEffect } from 'react'
 import Layout from '../components/Layout'
 import dbConnect from "../lib/dbConnect"
-import NonFungibleToken from '../models/NonFungibleToken'
 import { NonFungibleTokenType } from '../interfaces/types'
 import Leaderboard from '../components/Leaderboard'
 import { LEADERBOARD_PAGE_SIZE } from '../helpers/constants'
@@ -24,7 +22,7 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
 }
 
 export async function getStaticProps() {
-  await dbConnect() 
+  await dbConnect()
 
   const list = await getPaginatedTokens("azuki", 0, LEADERBOARD_PAGE_SIZE)
   return { props: { leaderboard: list }}

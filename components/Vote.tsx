@@ -1,6 +1,4 @@
 import axios from 'axios'
-import { useEffect } from 'react'
-import { Fragment } from 'react'
 import { useState } from 'react'
 import { API_ROUTES } from '../helpers/routes'
 import { NonFungibleTokenType } from '../interfaces/types'
@@ -33,8 +31,6 @@ const Vote = ({ pairs }: Props) => {
     await axios.put(API_ROUTES.VOTE, { winnerId: vote.winnerId, loserId: vote.loserId })
     setTimeout(() => setLoading(false), 1500)
   }
-
-  console.log("rendering??")
 
   return (
     <div className="grid md:grid-cols-2 gap-x-8 gap-y-4">
