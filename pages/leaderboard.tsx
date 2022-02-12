@@ -21,7 +21,7 @@ const LeaderboardPage = ({ leaderboard }: Props) => {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   await dbConnect()
 
   const list = await getPaginatedTokens("azuki", 0, LEADERBOARD_PAGE_SIZE)

@@ -8,8 +8,6 @@ type Props = {
   pairs: NonFungibleTokenType[]
 }
 
-// the prop will actually be 2 pairs 
-// one current, one next
 const Vote = ({ pairs }: Props) => {
   const [backlog, setBacklog] = useState(pairs.slice(2, pairs.length))
   const [comparison, setComparison] = useState(pairs.slice(0, 2))

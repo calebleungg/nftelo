@@ -78,7 +78,7 @@ const Leaderboard = ({ leaderboard }: Props) => {
             <p className="text-2x font-black">{nft.name}</p>
             <div className="font-extrabold">
               <div className="flex flex-row items-center gap-1 text-amber-400"><IoMdPodium /> {nft.rank}</div>
-              <div className="flex flex-row items-center gap-1 text-cyan-400"><GiAlliedStar /> {nft.elo}</div>
+              <div className="flex flex-row items-center gap-1 text-cyan-400"><GiAlliedStar /> {nft.elo.toFixed(0)}</div>
             </div>
           </div>
         </div>

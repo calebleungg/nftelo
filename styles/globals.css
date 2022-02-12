@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  overscroll-behavior: none;
+  background-color: #0f172a
 }
