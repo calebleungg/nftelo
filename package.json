@@ -4,11 +4,14 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "compile-contracts": "cd blockchain && truffle compile",
+    "migrate-contracts": "cd blockchain && truffle migrate"
   },
   "dependencies": {
     "axios": "^0.25.0",
     "classnames": "^2.3.1",
+    "ethers": "^5.5.4",
     "mongoose": "^6.0.11",
     "next": "latest",
     "pino": "^7.6.5",
