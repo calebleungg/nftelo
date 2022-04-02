@@ -2,7 +2,7 @@ import NonFungibleToken from "../models/NonFungibleToken"
 import { getVoteFloor } from "./vote"
 
 export const getNonFungibleTokenPairs = async (options: { take: number, excludes: string }) => {
-  const { take, excludes }= options
+  const { take, excludes } = options
 
   const voteFloor = await getVoteFloor()
 
