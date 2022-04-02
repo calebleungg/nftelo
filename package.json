@@ -4,9 +4,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc",
-    "compile-contracts": "cd blockchain && truffle compile",
-    "migrate-contracts": "cd blockchain && truffle migrate"
+    "type-check": "tsc"
   },
   "dependencies": {
     "axios": "^0.25.0",
